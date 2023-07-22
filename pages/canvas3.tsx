@@ -24,6 +24,8 @@ import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import CanvasPage from "../components/Canvas";
 import downloadPDF from "../utils/downloadPDF";
+import jsPDF from 'jspdf';
+
 
 // Configuration for the uploader
 const uploader = Uploader({
@@ -191,6 +193,13 @@ const Home: NextPage = () => {
     }
   }, [router.query.success]);
 
+
+  function setProfilePhoto(photo: any)
+  {
+    console.log(photo)
+  }
+
+
   return (
     <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
       <Head>
@@ -225,6 +234,22 @@ const Home: NextPage = () => {
         <h1 className="mx-auto max-w-4xl font-display text-4xl font-bold tracking-normal text-slate-100 sm:text-6xl mb-5">
           Generate amazing <span className="text-blue-600">visualisation</span>
         </h1>
+
+        {/* Profile Upload module */}
+
+
+        <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+          <div className="px-4 pt-4 pb-10">
+            <form action="">
+            <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-center" htmlFor="large_size">
+               <img className="w-20" src="https://chicagophotovideo.com/wp-content/uploads/2017/10/ezgif.com-webp-to-jpg-17.jpg" alt="image description" />
+            </label>
+            <input className="block w-full text-lg text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400" id="large_size" type="file" onChange={ (event) => setProfilePhoto(event.target.files[0])} />
+            </form>
+          </div>
+        </div>
+
+
         {true && data && !restoredImage && (
           <p className="text-gray-400">
             You have{" "}
@@ -257,9 +282,8 @@ const Home: NextPage = () => {
                 </div>
               )}
               <div
-                className={`${
-                  restoredLoaded ? "visible mt-6 -ml-8" : "invisible"
-                }`}
+                className={`${restoredLoaded ? "visible mt-6 -ml-8" : "invisible"
+                  }`}
               >
                 <Toggle
                   className={`${restoredLoaded ? "visible mb-6" : "invisible"}`}
@@ -281,7 +305,7 @@ const Home: NextPage = () => {
                     color="white"
                     radius="6"
                     wrapperStyle={{}}
-                    wrapperClass=""
+                    className=""
                     visible={true}
                     ariaLabel="rings-loading"
                   />
@@ -341,7 +365,7 @@ const Home: NextPage = () => {
                 </div>
               )}
               <div className="flex space-x-2 justify-center">
-                {status === "authenticated" && (
+                {/* {status === "authenticated" && ( */}
                   <button
                     onClick={() => {
                       downloadPDF().then((e) => {
@@ -352,7 +376,7 @@ const Home: NextPage = () => {
                   >
                     Download Visual
                   </button>
-                )}
+                {/* )} */}
                 {status === "authenticated" && !loading && !error && (
                   <button
                     onClick={() => {

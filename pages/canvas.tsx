@@ -25,6 +25,7 @@ import { Toaster, toast } from "react-hot-toast";
 import CanvasPage from "../components/Canvas";
 import axios from "axios";
 import downloadPDF from "../utils/downloadPDF";
+import fs from 'fs'
 
 // Configuration for the uploader
 const uploader = Uploader({

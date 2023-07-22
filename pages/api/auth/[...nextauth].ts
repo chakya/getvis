@@ -12,8 +12,8 @@ export const authOptions: NextAuthOptions = {
     //   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     // }),
     LinkedInProvider({
-      clientId: process.env.LINKEDIN_CLIENT_ID || "",
-      clientSecret: process.env.LINKEDIN_CLIENT_SECRET || "",
+      clientId: process.env.LINKEDIN_CLIENT_ID || "86d98issxsp0bq",
+      clientSecret: process.env.LINKEDIN_CLIENT_SECRET || "JWZI7oApC9o4j271",
     }),
   ],
 };
