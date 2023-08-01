@@ -2,8 +2,6 @@ import { fabric } from "fabric";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
 
-
-
 async function convertCanvasToImage(canvas: Element) {
   const image = await html2canvas(canvas as HTMLElement, {
     useCORS: true,
@@ -14,24 +12,15 @@ async function convertCanvasToImage(canvas: Element) {
 }
 
 async function convertAllCanvasesToImages() {
-  // const canvases = document.getElementsByClassName("lower-canvas");
-  // const images = [];  
-
-  // for (let i = 0; i < canvases.length; i++) {
-  //   const canvas = canvases[i];
-  //   const image = await convertCanvasToImage(canvas);
-  //   images.push(image);
-  // }
-  // return images;
+  const canvases = document.getElementsByClassName("lower-canvas");
+  const images = [];
+  for (let i = 0; i < canvases.length; i++) {
+    const canvas = canvases[i];
+    const image = await convertCanvasToImage(canvas);
+    images.push(image);
+  }
+  return images;
 }
-
-function fileread(filename)
-{            
-   var contents= fs.readFileSync(filename);
-   return contents;
-}      
-
-
 
 async function generatePDFFromImages(images: HTMLCanvasElement[]) {
   //   const pdf = new jsPDF("l", "px", [images[0].height, images[0].width]);

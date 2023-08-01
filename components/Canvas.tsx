@@ -760,11 +760,262 @@ const temp10 = {
   ],
 };
 
+const temp11 = {
+  sample: "sample3/1.png",
+  order: [
+    { name: "profilePic", top: 0 },
+    { name: "userfullname", top: -90 },
+    { name: "username", top: -80 },
+    { name: "desc", top: 0 },
+  ],
+  content: {
+    ...username,
+    textOpt: {
+      left: 40,
+      top: 70,
+      fontSize: 80,
+      width: 720,
+      // fontFamily: "League Gothic",
+      lineHeight: 1,
+      textAlign: "center",
+      fill: "white",
+    },
+    descOpt: {
+      left: 40,
+      top: 104,
+      fontSize: 48,
+      width: 720,
+      // fontFamily: "League Gothic",
+      // fontWeight: "light",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "white",
+    },
+    profile: {
+      left: 40, // set left position
+      top: 10, // set top position
+      scaleX: 1.3,
+      scaleY: 1.3,
+      fill: "white",
+    },
+    // imageURL: "temp3/1.png",
+    backgroundColor: "#1a1a26",
+  },
+};
+
+const temp12 = {
+  sample: "sample3/2.png",
+  content: {
+    textOpt: {
+      left: 40,
+      top: 70,
+      fontSize: 80,
+      width: 720,
+      // fontFamily: "League Gothic",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "white",
+    },
+    descOpt: {
+      left: 40,
+      top: 104,
+      fontSize: 48,
+      width: 720,
+      // fontFamily: "League Gothic",
+      // fontWeight: "light",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "white",
+    },
+    profile: {
+      left: 40, // set left position
+      top: 10, // set top position
+      scaleX: 1.3,
+      scaleY: 1.3,
+      fill: "white",
+    },
+    vision: {
+      left: 200, // set left position
+      top: 0, // set top position
+      scaleX: 0.102,
+      scaleY: 0.102,
+      fill: "white",
+      img: "element/arrow_white.png",
+      bg: "black",
+    },
+
+    // imageURL: "temp3/1.png",
+    backgroundColor: "#1a1a26",
+  },
+  order: [
+    { name: "desc", top: 0 },
+    { name: "profilePic", top: 20 },
+    { name: "arrow", top: -95 },
+    { name: "userfullname", top: 12 },
+    { name: "username", top: 80 },
+  ],
+};
+
+const temp13 = {
+  sample: "sample3/2.png",
+  content: {
+    textOpt: {
+      left: 40,
+      top: 70,
+      fontSize: 80,
+      width: 720,
+      // fontFamily: "League Gothic",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "white",
+    },
+    descOpt: {
+      left: 40,
+      top: 104,
+      fontSize: 48,
+      width: 720,
+      // fontFamily: "League Gothic",
+      // fontWeight: "light",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "white",
+    },
+    profile: {
+      left: 40, // set left position
+      top: 10, // set top position
+      scaleX: 1.3,
+      scaleY: 1.3,
+      fill: "white",
+    },
+    vision: {
+      left: 200, // set left position
+      top: 0, // set top position
+      scaleX: 0.102,
+      scaleY: 0.102,
+      fill: "white",
+      img: "element/arrow_white.png",
+      bg: "black",
+    },
+
+    // imageURL: "temp3/1.png",
+    backgroundColor: "#1a1a26",
+  },
+  order: [
+    { name: "desc", top: 0 },
+    { name: "profilePic", top: 20 },
+    { name: "arrow", top: -95 },
+    { name: "userfullname", top: 12 },
+    { name: "username", top: 80 },
+  ],
+};
+
+const temp14 = {
+  sample: "sample3/5.png",
+  order: [
+    { name: "profilePic", top: 0 },
+    { name: "userfullname", top: -90 },
+    { name: "username", top: -80 },
+    { name: "desc", top: 0 },
+  ],
+  content: {
+    ...username,
+    textOpt: {
+      left: 40,
+      top: 70,
+      fontSize: 80,
+      width: 720,
+      // fontFamily: "League Gothic",
+      lineHeight: 1,
+      textAlign: "center",
+      fill: "black",
+    },
+    descOpt: {
+      left: 40,
+      top: 104,
+      fontSize: 48,
+      width: 720,
+      // fontFamily: "League Gothic",
+      // fontWeight: "light",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "black",
+    },
+    profile: {
+      left: 40, // set left position
+      top: 10, // set top position
+      scaleX: 1.3,
+      scaleY: 1.3,
+      fill: "black",
+    },
+    // imageURL: "temp3/1.png",
+    backgroundColor: "#f2f3f7",
+  },
+};
+
+const temp15 = {
+  sample: "sample3/4.png",
+  content: {
+    textOpt: {
+      left: 40,
+      top: 70,
+      fontSize: 80,
+      width: 720,
+      // fontFamily: "League Gothic",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "white",
+    },
+    descOpt: {
+      left: 40,
+      top: 104,
+      fontSize: 48,
+      width: 720,
+      // fontFamily: "League Gothic",
+      // fontWeight: "light",
+      lineHeight: 1,
+      textAlign: "left",
+      fill: "white",
+    },
+    profile: {
+      left: 40, // set left position
+      top: 10, // set top position
+      scaleX: 1.3,
+      scaleY: 1.3,
+      fill: "white",
+    },
+    vision: {
+      left: 200, // set left position
+      top: 0, // set top position
+      scaleX: 0.102,
+      scaleY: 0.102,
+      fill: "white",
+      img: "element/block_swipe_white.png",
+      bg: "black",
+    },
+
+    // imageURL: "temp3/1.png",
+    backgroundColor: "#1a1a26",
+  },
+  order: [
+    { name: "desc", top: 0 },
+    { name: "profilePic", top: 20 },
+    { name: "arrow", top: -95 },
+    { name: "userfullname", top: 12 },
+    { name: "username", top: 80 },
+  ],
+};
+
+
+
+
+
+
+
 interface contentProps {
   index: any;
   content: string;
   desc?: string;
-  type: keyof typeof temp5;
+  type: keyof typeof temp10;
 }
 
 const craw = `1. Put yourself first: Stop people pleasing and start taking care of yourself! 
@@ -873,7 +1124,7 @@ function parseContent3(raw: string): any {
 //   },
 // ];
 
-const template = [temp5, temp6, temp9, temp10];
+const template = [temp5, temp6, temp9, temp10, temp11, temp12, temp13, temp14, temp15];
 
 const CanvasPage = ({
   contentSum,
