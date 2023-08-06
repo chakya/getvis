@@ -878,9 +878,11 @@ const template = [temp5, temp6, temp9, temp10];
 const CanvasPage = ({
   contentSum,
   generateContent,
+  onCanvasCreated,
 }: {
   contentSum: contentProps[];
   generateContent: (event?: any) => Promise<void>;
+  onCanvasCreated: any;
 }) => {
   const [title, settitle] = useState("second");
   const [selTemp, setselTemp] = useState(temp5);
@@ -940,6 +942,7 @@ const CanvasPage = ({
                   setGlobalCanvasHeight={setGlobalCanvasHeight}
                   selBgColor={selectedColor}
                   order={selTemp.order}
+                  onCanvasCreated={onCanvasCreated}
                   // content={item.content}
                   // textOpt={selTemp[item.type]?.textOpt}
                   // desc={item.desc}

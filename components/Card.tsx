@@ -12,6 +12,7 @@ interface CardProps {
   order: any;
   selBgColor: any;
   setGlobalCanvasHeight: Dispatch<SetStateAction<number>>;
+  onCanvasCreated: any;
 }
 
 // function startDownload() {
@@ -34,6 +35,7 @@ export default function Card({
   order,
   selBgColor,
   setGlobalCanvasHeight,
+  onCanvasCreated,
 }: CardProps) {
   const { imageURL, textOpt, descOpt, backgroundColor, vision } = template;
   const { content, desc, contentIndex } = item;
@@ -93,6 +95,7 @@ export default function Card({
     // console.log(cnv, cnv._contextContainer, !cnv.getContext());
     if (!cnv.getContext()) return;
     setCanvas(cnv);
+    onCanvasCreated(cnv);
     const canvasHeight = cnv.height as number;
     const canvasWidth = cnv.width as number;
 
@@ -262,7 +265,7 @@ export default function Card({
   }, [globalCanvasHeight]);
 
   useEffect(() => {
-    console.log("change color", selBgColor);
+    // console.log("change color", selBgColor);
     if (canvas && canvas._objects?.length > 0) {
       canvas?.setBackgroundColor(
         selBgColor.color,

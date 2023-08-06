@@ -24,7 +24,8 @@ import { useRouter } from "next/router";
 import { Toaster, toast } from "react-hot-toast";
 import CanvasPage from "../components/Canvas";
 import axios from "axios";
-import downloadPDF from "../utils/downloadPDF";
+import { downloadSVGPDF } from "../utils/downloadPDF";
+import CanvasContext from "../context/CanvasContext";
 
 // Configuration for the uploader
 const uploader = Uploader({
@@ -208,73 +209,79 @@ const Home: NextPage = () => {
       toast.success("Payment successful!");
     }
   }, [router.query.success]);
+  const [canvases, setCanvases] = useState([]);
+
+  const handleCanvasCreated = (canvas: any) => {
+    setCanvases((prevCanvases) => [...prevCanvases, canvas]);
+  };
   return (
-    <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
-      <Head>
-        <title>Instacarol</title>
-      </Head>
-      <Header
-        photo={session?.user?.image || undefined}
-        email={session?.user?.email || undefined}
-      />
-      <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-4 sm:mb-0 mb-8">
-        {status === "authenticated" ? (
-          <Link
-            href="/pricing"
-            className="border border-gray-700 rounded-2xl py-2 px-4 text-gray-400 text-sm my-6 duration-300 ease-in-out hover:text-gray-300 hover:scale-105 transition"
-          >
-            Pricing is now available.{" "}
-            <span className="font-semibold text-gray-200">Click here</span> to
-            upgrade!
-          </Link>
-        ) : (
-          <a
-            href="https://twitter.com/nutlope/status/1635674124738523139?cxt=HHwWhsCz1ei8irMtAAAA"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="border border-gray-700 rounded-2xl py-2 px-4 text-gray-400 text-sm my-6 duration-300 ease-in-out hover:text-gray-300 transition"
-          >
-            Over{" "}
-            <span className="font-semibold text-gray-200">
-              Thousands of users
-            </span>{" "}
-            have used Instacarol so far
-          </a>
-        )}
-        {status === "authenticated" && contentSum?.length === 0 && (
-          <>
-            <h1 className="mx-auto max-w-4xl font-display text-4xl font-bold tracking-normal text-slate-100 sm:text-6xl mb-5">
-              Transform Copy into Engaging{" "}
-              <div className="text-blue-600">Linkedin Carousels</div>
-            </h1>
-            <h2 className="text-2xl bold mb-1">
-              Enter your Linkedin post copy
-            </h2>
-            <h3 className="max-w-3xl">
-              <br />
-              Some ideas:
-              <br />
-              1) Start typing new LinkedIn post copy
-              <br />
-              2) Copy/paste one of your old LinkedIn post
-              <br />
-              3) Copy/paste a popular Linkedin post you recently saw and make it
-              your own!
-            </h3>
-          </>
-        )}
-        {status === "authenticated" && contentSum?.length > 0 && (
-          <>
-            <h1 className="mx-auto max-w-4xl font-display text-4xl font-bold tracking-normal text-slate-100 sm:text-6xl mb-5">
-              Edit & Download your{" "}
-              <span className="text-blue-600"> Linkedin Carousel</span>
-            </h1>
-          </>
-        )}
-        {status === "authenticated" && data && contentSum?.length > 0 && (
-          <p className="text-gray-400">
-            Click text to edit copy
-            {/* You have{" "}
+    <CanvasContext.Provider value={canvases}>
+      <div className="flex max-w-6xl mx-auto flex-col items-center justify-center py-2 min-h-screen">
+        <Head>
+          <title>Instacarol</title>
+        </Head>
+        <Header
+          photo={session?.user?.image || undefined}
+          email={session?.user?.email || undefined}
+        />
+        <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4 mt-4 sm:mb-0 mb-8">
+          {status === "authenticated" ? (
+            <Link
+              href="/pricing"
+              className="border border-gray-700 rounded-2xl py-2 px-4 text-gray-400 text-sm my-6 duration-300 ease-in-out hover:text-gray-300 hover:scale-105 transition"
+            >
+              Pricing is now available.{" "}
+              <span className="font-semibold text-gray-200">Click here</span> to
+              upgrade!
+            </Link>
+          ) : (
+            <a
+              href="https://twitter.com/nutlope/status/1635674124738523139?cxt=HHwWhsCz1ei8irMtAAAA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="border border-gray-700 rounded-2xl py-2 px-4 text-gray-400 text-sm my-6 duration-300 ease-in-out hover:text-gray-300 transition"
+            >
+              Over{" "}
+              <span className="font-semibold text-gray-200">
+                Thousands of users
+              </span>{" "}
+              have used Instacarol so far
+            </a>
+          )}
+          {status === "authenticated" && contentSum?.length === 0 && (
+            <>
+              <h1 className="mx-auto max-w-4xl font-display text-4xl font-bold tracking-normal text-slate-100 sm:text-6xl mb-5">
+                Transform Copy into Engaging{" "}
+                <div className="text-blue-600">Linkedin Carousels</div>
+              </h1>
+              <h2 className="text-2xl bold mb-1">
+                Enter your Linkedin post copy
+              </h2>
+              <h3 className="max-w-3xl">
+                <br />
+                Some ideas:
+                <br />
+                1) Start typing new LinkedIn post copy
+                <br />
+                2) Copy/paste one of your old LinkedIn post
+                <br />
+                3) Copy/paste a popular Linkedin post you recently saw and make
+                it your own!
+              </h3>
+            </>
+          )}
+          {status === "authenticated" && contentSum?.length > 0 && (
+            <>
+              <h1 className="mx-auto max-w-4xl font-display text-4xl font-bold tracking-normal text-slate-100 sm:text-6xl mb-5">
+                Edit & Download your{" "}
+                <span className="text-blue-600"> Linkedin Carousel</span>
+              </h1>
+            </>
+          )}
+          {status === "authenticated" && data && contentSum?.length > 0 && (
+            <p className="text-gray-400">
+              Click text to edit copy
+              {/* You have{" "}
             <span className="font-semibold text-gray-300">
               {data.remainingGenerations}{" "}
               {data?.remainingGenerations > 1 ? "downloads" : "download"}
@@ -292,102 +299,105 @@ const Home: NextPage = () => {
                 .
               </span>
             )} */}
-          </p>
-        )}
-        <ResizablePanel>
-          <AnimatePresence mode="wait">
-            <motion.div className="flex justify-between items-center w-full flex-col">
-              {restoredImage && (
-                <div>
-                  Here's your remodeled <b>{room.toLowerCase()}</b> in the{" "}
-                  <b>{theme.toLowerCase()}</b> theme!{" "}
-                </div>
-              )}
-              <div
-                className={`${
-                  restoredLoaded ? "visible mt-6 -ml-8" : "invisible"
-                }`}
-              >
-                <Toggle
-                  className={`${restoredLoaded ? "visible mb-6" : "invisible"}`}
-                  sideBySide={sideBySide}
-                  setSideBySide={(newVal) => setSideBySide(newVal)}
-                />
-              </div>
-              {restoredLoaded && sideBySide && (
-                <CompareSlider
-                  original={originalPhoto!}
-                  restored={restoredImage!}
-                />
-              )}
-              {status === "loading" || loading ? (
-                <div className="max-w-[670px] h-[250px] flex justify-center items-center">
-                  <Rings
-                    height="100"
-                    width="100"
-                    color="white"
-                    radius="6"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                    visible={true}
-                    ariaLabel="rings-loading"
+            </p>
+          )}
+          <ResizablePanel>
+            <AnimatePresence mode="wait">
+              <motion.div className="flex justify-between items-center w-full flex-col">
+                {restoredImage && (
+                  <div>
+                    Here's your remodeled <b>{room.toLowerCase()}</b> in the{" "}
+                    <b>{theme.toLowerCase()}</b> theme!{" "}
+                  </div>
+                )}
+                <div
+                  className={`${
+                    restoredLoaded ? "visible mt-6 -ml-8" : "invisible"
+                  }`}
+                >
+                  <Toggle
+                    className={`${
+                      restoredLoaded ? "visible mb-6" : "invisible"
+                    }`}
+                    sideBySide={sideBySide}
+                    setSideBySide={(newVal) => setSideBySide(newVal)}
                   />
                 </div>
-              ) : status === "authenticated" && contentSum?.length === 0 ? (
-                <>
-                  <textarea
-                    className="rounded-xl bg-black w-full max-w-2xl p-4"
-                    rows={5}
-                    value={prompt}
-                    minLength={150}
-                    onChange={(e) => setPrompt(e.target.value)}
-                    placeholder="Please enter a minimum of 150 words to get the best carousel result"
-                  ></textarea>
-                  {/* <p className="mt-4">{prompt.length} chars (min 150 chars)</p> */}
-                  <button
-                    type="submit"
-                    className="bg-blue-600 rounded-xl text-white font-medium px-4 py-3 mt-10 hover:bg-blue-500 transition disabled:bg-gray-800"
-                    onClick={generateContent}
-                    disabled={loading || prompt?.length < 150}
-                  >
-                    {loading && (
-                      <span className="pr-4">
-                        <LoadingDots color="white" style="large" />
-                      </span>
-                    )}
-                    Create LinkedIn Carousel
-                  </button>
-                </>
-              ) : (
-                contentSum?.length === 0 && (
-                  <div className="h-[250px] flex flex-col items-center space-y-6 max-w-[670px] -mt-8">
-                    <div className="max-w-xl text-gray-300">
-                      Sign in below with LinkedIn to create a free account and
-                      redesign your room today. You will get 3 generations for
-                      free.
-                    </div>
-                    <button
-                      onClick={() => signIn("linkedin")}
-                      className="bg-gray-200 text-black font-semibold py-3 px-6 rounded-2xl flex items-center space-x-2"
-                    >
-                      <Image
-                        src="/linkedin.webp"
-                        width={20}
-                        height={20}
-                        alt="linkedin's logo"
-                      />
-                      <span>Sign in with LinkedIn</span>
-                    </button>
+                {restoredLoaded && sideBySide && (
+                  <CompareSlider
+                    original={originalPhoto!}
+                    restored={restoredImage!}
+                  />
+                )}
+                {status === "loading" || loading ? (
+                  <div className="max-w-[670px] h-[250px] flex justify-center items-center">
+                    <Rings
+                      height="100"
+                      width="100"
+                      color="white"
+                      radius="6"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                      visible={true}
+                      ariaLabel="rings-loading"
+                    />
                   </div>
-                )
-              )}
-              {contentSum?.length > 0 && !loading && (
-                <CanvasPage
-                  contentSum={contentSum}
-                  generateContent={generateContent}
-                />
-              )}
-              {/* {loading && (
+                ) : status === "authenticated" && contentSum?.length === 0 ? (
+                  <>
+                    <textarea
+                      className="rounded-xl bg-black w-full max-w-2xl p-4"
+                      rows={5}
+                      value={prompt}
+                      minLength={150}
+                      onChange={(e) => setPrompt(e.target.value)}
+                      placeholder="Please enter a minimum of 150 words to get the best carousel result"
+                    ></textarea>
+                    {/* <p className="mt-4">{prompt.length} chars (min 150 chars)</p> */}
+                    <button
+                      type="submit"
+                      className="bg-blue-600 rounded-xl text-white font-medium px-4 py-3 mt-10 hover:bg-blue-500 transition disabled:bg-gray-800"
+                      onClick={generateContent}
+                      disabled={loading || prompt?.length < 150}
+                    >
+                      {loading && (
+                        <span className="pr-4">
+                          <LoadingDots color="white" style="large" />
+                        </span>
+                      )}
+                      Create LinkedIn Carousel
+                    </button>
+                  </>
+                ) : (
+                  contentSum?.length === 0 && (
+                    <div className="h-[250px] flex flex-col items-center space-y-6 max-w-[670px] -mt-8">
+                      <div className="max-w-xl text-gray-300">
+                        Sign in below with LinkedIn to create a free account and
+                        redesign your room today. You will get 3 generations for
+                        free.
+                      </div>
+                      <button
+                        onClick={() => signIn("linkedin")}
+                        className="bg-gray-200 text-black font-semibold py-3 px-6 rounded-2xl flex items-center space-x-2"
+                      >
+                        <Image
+                          src="/linkedin.webp"
+                          width={20}
+                          height={20}
+                          alt="linkedin's logo"
+                        />
+                        <span>Sign in with LinkedIn</span>
+                      </button>
+                    </div>
+                  )
+                )}
+                {contentSum?.length > 0 && !loading && (
+                  <CanvasPage
+                    contentSum={contentSum}
+                    generateContent={generateContent}
+                    onCanvasCreated={handleCanvasCreated}
+                  />
+                )}
+                {/* {loading && (
                 <button
                   disabled
                   className="bg-blue-500 rounded-full text-white font-medium px-4 pt-2 pb-3 mt-8 w-40"
@@ -397,55 +407,57 @@ const Home: NextPage = () => {
                   </span>
                 </button>
               )} */}
-              {error && (
-                <div
-                  className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl mt-8 max-w-[575px]"
-                  role="alert"
-                >
-                  <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
-                    Please try again later.
-                  </div>
-                  <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
-                    {error}
-                  </div>
-                </div>
-              )}
-              <div className="flex space-x-2 justify-center">
-                {contentSum?.length > 0 && !loading && !error && (
-                  <button
-                    onClick={() => {
-                      downloadPDF().then((e) => {
-                        console.log(e);
-                      });
-                    }}
-                    className="bg-blue-500 rounded-full text-white font-medium px-4 py-2 mt-8 hover:bg-blue-500/80 transition"
+                {error && (
+                  <div
+                    className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl mt-8 max-w-[575px]"
+                    role="alert"
                   >
-                    Download
-                  </button>
+                    <div className="bg-red-500 text-white font-bold rounded-t px-4 py-2">
+                      Please try again later.
+                    </div>
+                    <div className="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+                      {error}
+                    </div>
+                  </div>
                 )}
-                {contentSum?.length > 0 && !loading && (
-                  <>
+                <div className="flex space-x-2 justify-center">
+                  {contentSum?.length > 0 && !loading && !error && (
                     <button
                       onClick={() => {
-                        setContentSum([]);
-                        // setRestoredImage(null);
-                        // setRestoredLoaded(false);
-                        setError(null);
+                        downloadSVGPDF(canvases);
+                        // downloadPDF().then((e) => {
+                        //   console.log(e);
+                        // });
                       }}
-                      className="bg-white rounded-full text-black border font-medium px-4 py-2 mt-8 hover:bg-gray-100 transition"
+                      className="bg-blue-500 rounded-full text-white font-medium px-4 py-2 mt-8 hover:bg-blue-500/80 transition"
                     >
-                      New
+                      Download
                     </button>
-                  </>
-                )}
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </ResizablePanel>
-        <Toaster position="top-center" reverseOrder={false} />
-      </main>
-      <Footer />
-    </div>
+                  )}
+                  {contentSum?.length > 0 && !loading && (
+                    <>
+                      <button
+                        onClick={() => {
+                          setContentSum([]);
+                          // setRestoredImage(null);
+                          // setRestoredLoaded(false);
+                          setError(null);
+                        }}
+                        className="bg-white rounded-full text-black border font-medium px-4 py-2 mt-8 hover:bg-gray-100 transition"
+                      >
+                        New
+                      </button>
+                    </>
+                  )}
+                </div>
+              </motion.div>
+            </AnimatePresence>
+          </ResizablePanel>
+          <Toaster position="top-center" reverseOrder={false} />
+        </main>
+        <Footer />
+      </div>
+    </CanvasContext.Provider>
   );
 };
 

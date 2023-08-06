@@ -46,6 +46,61 @@ async function generatePDFFromImages(images: HTMLCanvasElement[]) {
   }
   return pdf;
 }
+async function extractSvgs(canvases) {
+  const svg = [];
+  for (let i = 0; i < canvases.length; i++) {
+    const canvas = canvases[i];
+    if (canvas.getObjects().length > 0) {
+      svg.push(canvas.toSVG());
+    }
+  }
+  return svg;
+}
+const handleConvertToPDF = async (svgCodes: []) => {
+  try {
+    const response = await fetch("/api/generate-svgtopdf", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ svgCodes }),
+    })
+      .then((response) => {
+        // Check if the request was successful
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (!data.file) {
+          throw new Error("Faied to convert SVGs to PDF.");
+        }
+
+        const { file } = data;
+
+        // Create a temporary anchor element and trigger the download
+        const a = document.createElement("a");
+        a.download = "Instacarol Export.pdf";
+
+        a.href = file;
+        a.click();
+      })
+      .catch((error) => {
+        console.error(
+          "There was a problem with the fetch operation:",
+          error.message
+        );
+      });
+  } catch (error) {
+    console.error("Error during file download:", error);
+    // Handle error (e.g., display an error message to the user)
+  }
+};
+export async function downloadSVGPDF(canvases) {
+  const svgCodes = await extractSvgs(canvases);
+  await handleConvertToPDF(svgCodes);
+}
 
 export default async function downloadPDF() {
   const images = await convertAllCanvasesToImages();
